@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: 'dragonfly-db'
+    image: postgres:14.1-alpine
+    env_file:
+      - "./backend-module/.env"
+    restart: always
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - custom
+  web:
+    container_name: 'dragonfly-web'
+    command: bash -c "python -m web.database.session && python -m web"
+    build:
+      context: ./backend-module
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - ./backend-module:/src
+    env_file:
+      - "./backend-module/.env"
+    depends_on:
+      - db
+    networks:
+      - custom
+  ml:
+    container_name: 'dragonfly-ml'
+    command: bash -c "python -m uvicorn main:app --host=0.0.0.0 --port=6060"
+    build:
+      context: ./ML-module
+      dockerfile: Dockerfile
+    ports:
+      - "6060:6060"
+    restart: always
+    networks:
+      - custom
+  frontend:
+    container_name: 'dragonfly-frontend'
+    build:
+      context: ./frontend-module
+      dockerfile: Dockerfile
+    env_file:
+      - "./frontend-module/.env"
+    volumes:
+      - './frontend-module/:/app'
+      - './frontend-module/app/node_modules'
+    ports:
+      - "80:80"
+    networks:
+      - custom
+
+
+networks:
+  custom:
+    driver: bridge

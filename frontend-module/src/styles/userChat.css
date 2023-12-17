@@ -1,0 +1,45 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.user {
+  background-color: #007bff;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.bot {
+  background-color: #eee;
+  color: #333;
+  align-self: flex-start;
+}
+
+.message-input {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.message-input input {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.message-input button {
+  width: 100px;
+}

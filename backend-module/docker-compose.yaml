@@ -1,0 +1,35 @@
+version: "3.0"
+
+services:
+  db:
+    container_name: 'dragonfly-db'
+    image: postgres:14.1-alpine
+    env_file:
+      - ".env"
+    restart: always
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - custom
+  web:
+    container_name: 'dragonfly-web'
+    command: bash -c "python -m web.database.session && python -m web"
+    build: .
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - .:/src
+    env_file:
+      - ".env"
+    depends_on:
+      - db
+    networks:
+      - custom
+
+
+networks:
+  custom:
+    driver: bridge

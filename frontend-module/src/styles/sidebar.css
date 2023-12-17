@@ -1,0 +1,24 @@
+.sidebar {
+    height: 80%;
+    width: 160px;
+    /*border: 2px solid #007bff; !* Добавил окантовку *!*/
+    border-radius: 10px;
+    padding-right: 20px;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.sidebar a:hover {
+    color: #007bff;
+}
